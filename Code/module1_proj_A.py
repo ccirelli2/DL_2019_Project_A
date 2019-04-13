@@ -128,7 +128,6 @@ def clean_and_tokenize_text(Text_file):
     Text_tokenized = nltk.word_tokenize(Text_file)
     # Convert tokens to lowercase
     Text_lowercase = (token.lower() for token in Text_tokenized)
-
     # Strip Punctuation
     Text_tok_stripPunct = filter(lambda x: (x not in Punct_list), Text_lowercase)
     # Strip Stopwords
@@ -144,7 +143,7 @@ def clean_and_tokenize_text(Text_file):
 
     print('Text clean.  Time to dry', '\n')
 
-    return list(set(Text_stem))
+    return list(Text_stem)
 
 
 # Create Frequency Table
@@ -159,6 +158,8 @@ def create_word_freq_table(text, Excel_file_name, target_dir):
     for token in tokens:
         Dict[token] = Dict.get(token, 0) + 1
 
+    print(Dict)
+
     # Create Dataframe & Write to File
     df = pd.DataFrame(Dict, index = [0])
     df_t = df.transpose().sort_values(by=[0], ascending = False)
@@ -167,6 +168,7 @@ def create_word_freq_table(text, Excel_file_name, target_dir):
 
     # Return Table In Memory to User
     return df_t
+
 
 
 

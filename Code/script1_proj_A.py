@@ -14,7 +14,7 @@ os.chdir(target_dir)
 original_file = 'train.txt'
 
 ### Import Module 
-import module_1 as m1
+import module1_proj_A as m1
 
 ### Create File Excluding non-utf8 characters
 
@@ -35,21 +35,38 @@ def driver_funct_text_prep(Original_text_file, target_dir):
     # Step 4: Run Text Through Cleaning Pipeline
     concat_text_dirty = open('Concat_txt_file_dirty.txt').read()
     concat_text_clean = ' '.join(m1.clean_and_tokenize_text(concat_text_dirty))
-    m1.create_text_file(concat_text_clean, 'Concat_txt_file_dirty.txt', target_dir)
+    m1.create_text_file(concat_text_clean, 'cleaned_text.txt', target_dir)
     
     # Step 5:  Create Word Freq Table
     cleaned_text_cleaned = open('cleaned_text.txt').read()
-    df_freq_table = m1.create_word_freq_table(cleaned_text_cleaned, 'Word_Freq.xlsx', target_dir) 
+    df_freq_table = m1.create_word_freq_table(cleaned_text_cleaned, 'Word_Freq.xlsx', target_dir)    
+    return df_freq_table
+
+
+
+
+
+
+def get_word_freq_by_stage():
+
+    # Change to Data Dir
+    os.chdir('/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files')
+
+
+    # Step1:  Load Text File
+    text_file_tokens = open('cleaned_text.txt').read()
+
+    # Step2:  Tokenize Text of Stem Words
+    tokens_stem_words = nltk.word_tokenize(text_file_tokens)
+
+    # Merge Class On Text (Excel File)
     
-    
-    print('Frequency Table Sample \n', df_freq_table.head())
-
-    return df_patentID_table
-
-
+    df_text = pd.read_excel('Patent_ID_Text_Table.xlsx')
+    df_text_tp = df_text.transpose() 
+    df_labels = pd.read_excel('Label.xlsx')
+    df_merged = df_text_tp.merge(how = 'outer', df_labels, left_index = True, right_index = True)
 
 
-driver_funct_text_prep(original_file, target_dir)
 
 
 
