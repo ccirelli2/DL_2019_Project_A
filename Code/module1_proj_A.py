@@ -117,8 +117,6 @@ def clean_and_tokenize_text(Text_file):
     Return     = Object = Set; Set = cleaned, isalpha only tokens
     '''
     
-    print('Starting Step 4:  Run dirty text through washer')
-    
     # Strip Lists
     Punct_list = set((punct for punct in string.punctuation))
     Stopwords = nltk.corpus.stopwords.words('english')
@@ -140,8 +138,6 @@ def clean_and_tokenize_text(Text_file):
     Text_strip_names = filter(lambda x: x not in Set_names, Text_strip_2_letter_words)
     # Take Stem of Words
     Text_stem = [stemmer.stem(x) for x in Text_strip_names]
-
-    print('Text clean.  Time to dry', '\n')
 
     return list(Text_stem)
 
