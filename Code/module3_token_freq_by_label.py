@@ -25,6 +25,22 @@ def get_text_4_specific_label(mydb, label):
     df = pd.read_sql(sql_command, mydb)
     return df
 
+def get_entire_dataset(mydb):
+
+    sql_command = '''SELECT
+                   DL_2019_PROJ_A_LABELS.LABEL,
+                   DL_2019_PROJ_A_TEXT.TEXT
+
+                 FROM GSU.DL_2019_PROJ_A_TEXT
+
+                   JOIN DL_2019_PROJ_A_LABELS ON
+                        DL_2019_PROJ_A_TEXT.ID = DL_2019_PROJ_A_LABELS.ID;'''
+    df = pd.read_sql(sql_command, mydb)
+    
+    return df
+
+
+
 def get_token_table(mydb):
     sql_command = '''SELECT TOKEN
                      FROM DL_2019_PROJ_A_TOKENS2;'''
