@@ -30,8 +30,61 @@ token_file = 'Tokens_trainingset_04142019.xlsx'
 df_tokens = pd.read_excel(data_dir + '/' + token_file)
 list_tokens = [x for x in df_tokens['TOKENS']]
 
-
-
 # Retreive Text + Lables
-m3.get_entire_dataset(mydb)
+df_entire_dataset = m3.get_entire_dataset(mydb)
+df_entire_dataset_limited = df_entire_dataset.head()
+
+print(df_entire_dataset.columns)
+
+# Define Function Vectorize Text:
+def vectorize_text(list_tokens, df_entire_dataset):
+
+    # Create & Dataframe to house the vectors
+    df = pd.DataFrame({}, index = [x for x in list_tokens])
+
+    # Iterate over Dataframe w/ Text:
+    for row in df_entire_dataset.itertuples():
+
+        # Process Text:
+        clean_tokenized_text = m1.clean_and_tokenize_text(row[2])
+
+        # For Each Row we are going to build a list
+        list_matches = []
+
+        # Iterate List of Tokens
+        for token in list_tokens:
+            if token in clean_tokenized_text:
+                list_matches.append(1)
+            else:
+                list_matches.append(0)
+
+        # Once We are Finished Building Our List, we need to add it to our dataframe as a col.
+        df[row[0]] = list_matches    # row[0] is the index, so we will need to add column names 
+                                     # afterwards. 
+        
+        # Provide Update
+        print('Vectorization completed for row {}'.format(row[0]))
+    
+    print('Process complete.  File written to hard drive')
+
+    return df
+
+
+df_output = vectorize_text(list_tokens, df_entire_dataset)
+df_output_add_label = df_output['Label'] = df_entire_dataset['LABEL']
+# Chose Location to write file
+os.chdir(r'/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files')
+df_output.transpose().to_excel('Vectorized_text_4_selected_tokens.xlsx')
+
+
+
+
+
+
+
+
+
+
+
+
 
