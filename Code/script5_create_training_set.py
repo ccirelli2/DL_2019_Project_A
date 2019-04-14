@@ -34,7 +34,7 @@ list_tokens = [x for x in df_tokens['TOKENS']]
 df_entire_dataset = m3.get_entire_dataset(mydb)
 df_entire_dataset_limited = df_entire_dataset.head()
 
-print(df_entire_dataset.columns)
+
 
 # Define Function Vectorize Text:
 def vectorize_text(list_tokens, df_entire_dataset):
@@ -71,10 +71,18 @@ def vectorize_text(list_tokens, df_entire_dataset):
 
 
 df_output = vectorize_text(list_tokens, df_entire_dataset)
-df_output_add_label = df_output['Label'] = df_entire_dataset['LABEL']
+df_tranpose = df_output.transpose()
+df_tranpose['LABEL'] = df_entire_dataset['LABEL']
+
+
+
 # Chose Location to write file
 os.chdir(r'/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files')
-df_output_add_label.transpose().to_excel('Vectorized_text_4_selected_tokens.xlsx')
+df_tranpose.to_excel('Vectorized_text_4_selected_tokens.xlsx')
+
+
+
+
 
 
 
