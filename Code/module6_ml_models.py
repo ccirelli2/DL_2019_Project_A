@@ -1,5 +1,3 @@
-
-
 ## Import Packages
 import pandas as pd
 import sklearn
@@ -12,39 +10,49 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
 
 
-def train_RandomForecast_classifier(X,Y, random_state_value, result):
-
-    x_train, x_test, y_train, y_test = train_test_split(X, Y, 
-                                                        stratify = Y)
+def train_RandomForecast_classifier(X,Y, random_state_value, 
+                                    depth, leaf_nodes, result,
+                                    target):
     
-    # Generate Prediction
-    clf_RF = RandomForestClassifier(n_estimators = 100)
-    clf_RF.fit(x_train, y_train)
-    y_predict = clf_RF.predict(x_test)
+    # Create Train / Test Split for Features & Target
+    x_train, x_test, y_train, y_test = train_test_split(X, Y, stratify = Y)
+    
+    # Instantiate the RF Model 
+    clf_RF = RandomForestClassifier(n_estimators = 200, 
+                                   max_depth = depth, 
+                                   max_leaf_nodes = leaf_nodes,  
+                                   max_features = 'auto')
 
-    # Generate Results
-    if result == 'Classification_report':
-        NB_class_report = sklearn.metrics.classification_report(y_test, y_predict)
-        return NB_class_report
-    elif result == 'f1_score':
-        NB_f1_score = sklearn.metrics.f1_score(y_test, y_predict)
-        return NB_f1_score
-    elif result == 'precision_score':
-        NB_precision_score = sklearn.metrics.precision_score(y_test, y_predict, average = None)
-        return NB_precision_score
-    elif result == 'recall_score':
-        NB_recall_score = sklearn.metrics.recall_score(y_test, y_predict)
-        return NB_recall_score
-    elif result == 'feature_importance':
-        Feature_important = clf_RF.feature_importances_
-        df = pd.DataFrame({}, index = X.columns)
-        df['Feature Importance'] = Feature_important
-        m0.write_to_excel(df, 'Feature_Importance', output_dir)
-        return clf_RF.score(x_test, y_test)
+    # Train the Model 
+    clf_RF.fit(x_train, y_train)
+    # Generate & Prediction On X_test data
+    y_predict = clf_RF.predict(x_test)
+    
+    if result == 'accuracy':
+
+        if target == 'train':
+            return accuracy_score(y_train, clf_RF.predict(x_train))
+        
+        elif target == 'test':
+            return accuracy_score(y_test, y_predict)
+
+    # Return
+    return None
+
+
+
+
+
+
+
+
+
+
 
 
 
