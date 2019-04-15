@@ -44,65 +44,20 @@ list_col_names = m3.get_table_col_names(mydb)['COLUMN_NAME']
 list_tokens    = m3.get_token_table(mydb)['TOKEN']
 
 
-
 # DRIVER FUNCTION_________________________________________________________
 
 # Iterate Over List Column Names
-'''
-for col in list_col_names:
-
-    print('Starting function for col {}'.format(col))
-
-    # Get Text Associated With This Label
-    label = col[:1]                                      # drops off the _ from the end 
-    
-    # Retreive the Text Associated With This Label
-    df_text = m3.get_text_4_specific_label(mydb, label)   
-
-    Num_tokens = len(df_text.index)
-    Token_counter = 0
-
-    # Iterate Over List Of Tokens
-    for token in list_tokens:
-        # Create a Counter For The Number of Rows Where Token Is Matched
-        tokens_matched = 0
-    
-        # Iterate over each row in our df_text dataframe
-        for row_text in df_text.itertuples():
-            # Clean and tokenize the text in that row
-            clean_tokenize_text = m1.clean_and_tokenize_text(row_text[2])
-     
-            # if the token is in the list of tokens add 1 to the counter. 
-            if token in clean_tokenize_text:
-                tokens_matched += 1
-        
-        # Calculate Token Freq
-        token_freq = round((tokens_matched / Num_tokens * 100),2)
-        print(token_freq)
-        print(Num_tokens)
-        # Insert Token Freq Into Database
-        m3.insert_token_freq(mydb, mycursor, col, token_freq, token)
-        
-        # Increase Token Counter By One
-        Token_counter += 1
-
-        # Progress
-        progress = round((Token_counter / Num_tokens)*100, 4)
-        print('Percentage Completion for Col {} => {}%'.format(col, progress))
-'''     
-
-
 
 for col in list_col_names:
 
     # Update - Starting Function
     print('Starting function for col {}'.format(col))
 
-    # Retreive the Text Associated With This Label
+    # Retreive the Text Associated With This Label (returns df limited to this col)
     label = col[:1]
     df_text = m3.get_text_4_specific_label(mydb, label)
 
-    # Define Length of Rows
+    # Define Length of Rows - Gives you the denominator when calc avg
     Num_tokens = len(df_text.index)
 
     # Create a Dictionary for Count of Matched Tokens

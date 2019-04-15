@@ -59,8 +59,7 @@ def get_word_freq_by_stage():
     # Step2:  Tokenize Text of Stem Words
     tokens_stem_words = nltk.word_tokenize(text_file_tokens)
 
-    # Merge Class On Text (Excel File)
-    
+    # Merge Class On Text (Excel File)    
     df_text = pd.read_excel('Patent_ID_Text_Table.xlsx')
     df_text_tp = df_text.transpose() 
     df_labels = pd.read_excel('Label.xlsx')
