@@ -10,6 +10,8 @@ import nltk
 # Import Modules
 import module1_proj_A as m1      # cleaning pipeline is located here
 import module3_token_freq_by_label as m3  # sql code select functions here
+import module0_utility_functions as m0
+
 
 # Establish MySQL Connection
 mydb = mysql.connector.connect(
@@ -24,10 +26,10 @@ mycursor = mydb.cursor()
 # Data files
 data_dir =  r'/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files'
 token_file = 'Tokens_trainingset_04142019.xlsx'
-
+token_file_v2 = 'Tokens_trainingset_v2.xlsx'
 
 # Retreive List Tokens
-df_tokens = pd.read_excel(data_dir + '/' + token_file)
+df_tokens = pd.read_excel(data_dir + '/' + token_file_v2)
 list_tokens = [x for x in df_tokens['TOKENS']]
 
 # Retreive Text + Lables
@@ -71,23 +73,13 @@ def vectorize_text(list_tokens, df_entire_dataset):
 
 
 df_output = vectorize_text(list_tokens, df_entire_dataset)
-df_tranpose = df_output.transpose()
-df_tranpose['LABEL'] = df_entire_dataset['LABEL']
+df_transpose = df_output.transpose()
+df_transpose['LABEL'] = df_entire_dataset['LABEL']
 
 
 
 # Chose Location to write file
-os.chdir(r'/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files')
-df_tranpose.to_excel('Vectorized_text_4_selected_tokens.xlsx')
-
-
-
-
-
-
-
-# Test
-
+m0.write_to_excel(df_df_transpose, 'Second_file', target_dir)
 
 
 
