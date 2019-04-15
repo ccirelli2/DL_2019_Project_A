@@ -21,7 +21,7 @@ import module6_ml_models as m6
 
 # Import Dataset
 dir_dataset = r'/home/ccirelli2/Desktop/GSU/2019_Spring/Deep_Learning_Spring_2019/DL_2019_Project_A/Data_files'
-file_name = 'Vectorized_text_4_selected_tokens.xlsx'
+file_name = 'Second_file.xlsx'
 df = pd.read_excel(dir_dataset + '/' + file_name)
 
 # Separate Features / Targets

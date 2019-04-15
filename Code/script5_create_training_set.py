@@ -79,7 +79,7 @@ df_transpose['LABEL'] = df_entire_dataset['LABEL']
 
 
 # Chose Location to write file
-m0.write_to_excel(df_df_transpose, 'Second_file', target_dir)
+df_transpose.to_csv('Second_file.csv')
 
 
 
